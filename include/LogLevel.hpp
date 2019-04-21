@@ -27,7 +27,8 @@ namespace Log {
 		Fatal	= 5
 	};
 
-	typedef std::unordered_map<Level, const char *> LevelStrings;
+	using LevelStrings = std::unordered_map<Level, const char *>;
+	// typedef std::unordered_map<Level, const char *> LevelStrings;
 
 	extern const LevelStrings	Serialized;
 
