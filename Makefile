@@ -23,7 +23,8 @@ CXXFLAGS +=	-W\
 
 LIB	=	liblog.so
 
-SRC	=	./src/
+SRC	=	./src/LogLevel.cpp\
+		./src/StdLogTarget.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 
@@ -52,4 +53,4 @@ re:	fclean all
 debug:	CXXFLAGS	+=	-g3
 debug:	re
 
-.PHONY:	all obj clean fclean re debug
+.PHONY:	all obj doc clean fclean re debug
