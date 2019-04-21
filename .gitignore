@@ -1,0 +1,9 @@
+**/*test*
+*.so
+*.o
+*.a
+*.debug
+/.vscode
+/doc/
+!/doc/assets
+!/doc/*.md
