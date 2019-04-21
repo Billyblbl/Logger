@@ -34,7 +34,7 @@ namespace Log {
 			///
 			///@tparam Args Arguments types for underlying stream construction
 			///@param lv Log level of the target
-			///@param args Construction arguments to forward to underlying stream
+			///@param args Construction arguments to forward to underlying stream ref
 			///
 			template<typename... Args> GLogTarget(Level lv = All, Args&&... args):
 				_stream(std::forward<Args>(args)...),
@@ -57,7 +57,7 @@ namespace Log {
 			///@brief Destroy the GLogTarget object
 			///
 			///
-			~GLogTarget() = default;
+			virtual ~GLogTarget() = default;
 
 			///
 			///@brief Move assignement operator
