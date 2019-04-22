@@ -24,8 +24,7 @@ CXXFLAGS +=	-W\
 LIB	=	liblog.so
 
 SRC	=	./src/LogLevel.cpp\
-		./src/StdLogTarget.cpp\
-		./src/Logger.cpp
+        ./src/LogStdio.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 

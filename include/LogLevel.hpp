@@ -18,7 +18,7 @@ namespace Log {
 	///Defines the level of pertinence of a log message.
 	///Log Targets can use it to filter out unwanted message
 	///
-	enum Level {
+	enum Level : uint8_t {
 		All		= 0,
 		Debug	= 1,
 		Info	= 2,

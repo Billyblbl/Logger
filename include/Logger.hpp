@@ -10,65 +10,61 @@
 
 	#include <vector>
 	#include <memory>
-	#include "ILogTarget.hpp"
+	#include "ALogTarget.hpp"
 
 namespace Log {
 
-	class Logger {
+	template<
+		class ClockT = std::chrono::system_clock,
+		class StringT = std::string
+	>
+	class Logger : public ALogTarget<ClockT, StringT> {
 
 		public:
 
-			Logger() = default;
+			using TargetVector = std::vector<std::unique_ptr<ALogTarget<ClockT, StringT>>;
+
+			Logger(Level lv = All): ALogTarget(lv)
+			{}
+
 			~Logger() = default;
 
-			void		Log(const char *message, Level lv = All);
+			void	log(const LogEntryT &entry) override
+			{
+				if (entry.getLevel() < _lv)
+					return;
+				for (auto &target : _targets) {
+					target->log(entry);
+				}
+			}
 
-			using TargetVector = std::vector<std::unique_ptr<ILogTarget>>;
-			using iterator = TargetVector::iterator;
+			void	erase(std::size_t idx)
+			{
+				_targets.erase(idx);
+			}
 
-			iterator	begin();
-			iterator	end();
-
-			void		Erase(const iterator it);
-
-			void		Clear();
+			void	clear()
+			{
+				_targets.clear();
+			}
 
 			template<class targetType, typename...Args>
-			void	Add(Args&&... args)
+			targetType	&add(Args&&... args)
 			{
-				static_assert(std::is_convertible<targetType *, ILogTarget *>::value,
+				static_assert(std::is_convertible<targetType *, ALogTarget *>::value,
 							  "Can't add non-LogTarget object to Logger");
-				_targets.push_back(std::make_unique<targetType>(args)...);
+				return *_targets.push_back(std::make_unique<targetType>(std::forward(args)...));
 			}
 
 			template<class targetType>
 			void	operator+=(targetType &&right)
 			{
-				Add(right);
-			}
-
-			template<class targetType>
-			void	operator-=(targetType &&right)
-			{
-				Erase(std::find(_targets.begin(), _targets.end(), &right));
-			}
-
-			template<typename stringType>
-			void	operator<<(const stringType &right)
-			{
-				Log(right, _deflt);
-			}
-
-			void	operator<<(const std::string &right)
-			{
-				Log(right.c_str(), _deflt);
+				add(std::move(right));
 			}
 
 		protected:
 		private:
 			TargetVector	_targets;
-			Level			_deflt;
-
 	};
 }
 
