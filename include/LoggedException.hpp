@@ -16,17 +16,21 @@
 namespace Log {
 
 	template<
-		class ExceptionT,
+		class ExceptionT = std::exception,
 		class ClockT = std::chrono::system_clock,
 		class StringT = std::string
 	>
 	class LoggedException : public ExceptionT {
 		public:
 
+			static_assert(std::is_convertible<ExceptionT *, std::exception *>(
+				"Can't make a Logged Exception out of a non-exception object type"));
+
 			using LTarget = ALogTarget<ClockT, StringT>;
+			using LogEntryT = LogEntry<ClockT, StringT>;
 
 			template<typename... Args>
-			LoggedException(Args&&... args, LTarget &target = LogErr, Level lv = All):
+			LoggedException(Args&&... args, LTarget &target = LogErr, Level lv = Warning):
 				ExceptionT(std::forward(args)...),
 				_entry(what(), lv)
 			{
@@ -34,16 +38,27 @@ namespace Log {
 			}
 
 			template<typename... Args>
-			LoggedException(Args&&... args, Level lv = All): LoggedException(std::forward(args)..., LogErr, lv)
+			LoggedException(Args&&... args, Level lv = Warning):
+				LoggedException(std::forward(args)..., , lv)
 			{}
 
 			~LoggedException() = default;
 
 			LoggedException	&operator=(const LoggedException &right) = default;
 
-			const LogEntry<ClockT, StringT>	&getEntry() const
+			const LogEntryT				&getEntry() const
 			{
 				return _entry;
+			}
+
+			const Level					getLevel() const
+			{
+				return _entry.getLevel();
+			}
+
+			const LogEntryT::TimeStampT	&getTimeStamp() const
+			{
+				return _entry.getTimeStamp();
 			}
 
 		protected:
