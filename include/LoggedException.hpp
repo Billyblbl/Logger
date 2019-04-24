@@ -42,7 +42,7 @@ namespace Log {
 				LoggedException(std::forward(args)..., , lv)
 			{}
 
-			~LoggedException() = default;
+			virtual ~LoggedException() = default;
 
 			LoggedException	&operator=(const LoggedException &right) = default;
 
@@ -62,8 +62,8 @@ namespace Log {
 			}
 
 		protected:
-		private:
 			LogEntry<ClockT, StringT>	_entry;
+		private:
 	};
 
 }

@@ -28,7 +28,7 @@ namespace Log {
 			_token(token)
 		{}
 
-		~LogEntry() = default;
+		virtual ~LogEntry() = default;
 
 		using TimeStampT = TimeStamp<ClockT, StringT>;
 
@@ -48,10 +48,10 @@ namespace Log {
 		}
 
 	protected:
-	private:
 		Level		_lv;
 		TimeStampT	_timeStamp;
 		StringT		_token;
+	private:
 	};
 
 }
