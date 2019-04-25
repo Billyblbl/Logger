@@ -11,8 +11,8 @@
 
 namespace Log {
 
-	LogTargetReferenced	_LogOut(std::cout, All);
-	LogTargetReferenced	_LogErr(std::cerr, Warning);
+	inline LogTargetReferenced	_LogOut(std::cout, All);
+	inline LogTargetReferenced	_LogErr(std::cerr, Warning);
 
 	ALogTarget<>	&LogOut = _LogOut;
 	ALogTarget<>	&LogErr = _LogErr;
