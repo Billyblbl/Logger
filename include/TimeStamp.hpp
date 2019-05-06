@@ -14,6 +14,15 @@
 
 namespace Log {
 
+	///
+	///@brief TimeStamp object for log entries
+	///
+	/// Stringable object recording a point in time as
+	/// a string for log entries generation.
+	///
+	///@tparam ClockT Clock type used to record time point
+	///@tparam StringT String type implementation
+	///
 	template<
 		class ClockT = std::chrono::system_clock,
 		class StringT = std::string
@@ -21,9 +30,19 @@ namespace Log {
 	class TimeStamp {
 	public:
 
+		///
+		///@brief Time Point type
+		///
+		///
 		using TimePoint = std::chrono::time_point<ClockT>;
+
 		using SecondD = std::chrono::duration<double>;
 
+		///
+		///@brief Construct a new Time Stamp object
+		///
+		///@param _time Time Point to be recorded
+		///
 		TimeStamp(const TimePoint &_time)
 		{
 			auto tt = ClockT::to_time_t(_time);
@@ -44,8 +63,17 @@ namespace Log {
 			_stamp += sec.count() + ':';
 		}
 
+		///
+		///@brief Destroy the Time Stamp object
+		///
+		///
 		~TimeStamp() = default;
 
+		///
+		///@brief Conversion StringT operator
+		///
+		///@return const StringT & StringT value of the recorded time point
+		///
 		operator const StringT &() const
 		{
 			return _stamp;

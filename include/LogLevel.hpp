@@ -27,13 +27,22 @@ namespace Log {
 		Fatal	= 5
 	};
 
+	///
+	///@brief Serialization mapping type
+	///
+	///
 	using LevelStrings = std::unordered_map<Level, const char *>;
-	// typedef std::unordered_map<Level, const char *> LevelStrings;
 
+	///
+	///@brief Serialization mapping of Log Level enum type
+	///
+	///
 	extern const LevelStrings	Serialized;
 
 	///
 	///@brief Log Level Serializer
+	///
+	/// Obtain a C constant string corresponding to the log level given in lv
 	///
 	///@param lv Log level value to serialize
 	///@return const char* Corresponding serialized Log level

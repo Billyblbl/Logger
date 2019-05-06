@@ -12,7 +12,16 @@
 
 namespace Log {
 
+	///
+	///@brief Log target to standard stream std::cout
+	///
+	///
 	extern ALogTarget<>	&LogOut;
+
+	///
+	///@brief Log target to standard strem std::cerr
+	///
+	///
 	extern ALogTarget<>	&LogErr;
 
 }
